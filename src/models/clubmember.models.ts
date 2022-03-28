@@ -4,8 +4,9 @@ import sequelize from '../config/database.config'
 
 const ClubMember = sequelize.define('clubmemeber', {
     id: {
-        type: DataTypes.UUIDV4,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
+        allowNull: false,
         primaryKey: true
     },
     full_name: {

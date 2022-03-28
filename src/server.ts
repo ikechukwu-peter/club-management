@@ -3,8 +3,6 @@ import { cpus } from "os";
 import 'dotenv/config'
 import "./config/database.config";
 import './config/database.association'
-//import sequelize from "./database/database";
-
 
 //initializing app
 import app from "./app";
@@ -41,23 +39,6 @@ if (cluster.isPrimary) {
     console.log(err.name, err.message, err.stack);
     process.exit(1);
   });
-
-  // sequelize.sync({
-  //   force: true
-  // })
-  // //Connecting to mongoose
-  // async function dbInit(): Promise<void> {
-  //   try {
-  //     await sequelize.authenticate();
-  //     console.log('Connected to the database successfully')
-  //   } catch (error) {
-  //     console.log('Failed to connect to the database ' + error)
-  //   }
-
-  // }
-
-  // // //Call DB to start
-  // dbInit();
 
   //Setting port
   const port = process.env.PORT || 5000;

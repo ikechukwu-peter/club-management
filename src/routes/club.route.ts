@@ -24,7 +24,7 @@ router.post('/invite/:username/:clubId', passport.authenticate('jwt', { session:
 router.post('/join/:clubmember_id', passport.authenticate('jwt', { session: false }), accept_invitation)
 router.post('/reject/:clubmember_id', passport.authenticate('jwt', { session: false }), reject_invitation)
 
-router.post('/remove/user/:clubmember_id', passport.authenticate('jwt', { session: false }), remove_member)
+router.delete('/remove/user/:clubmember_id', passport.authenticate('jwt', { session: false }), remove_member)
 
 
 export default router;

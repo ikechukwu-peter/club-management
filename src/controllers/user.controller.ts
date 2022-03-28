@@ -1,30 +1,29 @@
 import { Request, Response } from 'express'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import {
     userRegistration,
-    userLogin,
-  } from '../services/user.service'
+} from '../services/user.service'
 import User from '../models/user.model'
 
+const signToken = (id: string) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET!, {
+        expiresIn: process.env.JWT_EXPIRESIN
+    })
+}
 
 const register = async (req: Request, res: Response) => {
     console.log(req.body)
     const { email, password, username, firstname, lastname } = req.body;
     try {
-        let existingUser = await User.findOne({ where: { email: email } });
-        if (existingUser) {
-            res.status(400).json({
-                status: "fail",
-                error: 'User already exist'
-            })
-        }
-        else {
-            let newUser = await userRegistration(email, password, firstname, lastname, username)
 
-            res.status(200).json({
-                status: "success",
-                newUser
-            })
-        }
+        let newUser = await userRegistration(email, password, firstname, lastname, username)
+
+        res.status(200).json({
+            status: "success",
+            newUser
+        })
+
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -41,13 +40,30 @@ const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
 
-        let newUser = await userLogin(email, password)
-        console.log(newUser)
-
-        res.status(200).json({
-            status: "success",
-            newUser
+        let user = await User.findOne({
+            where: { email },
         })
+        console.log(user?.getDataValue('email'))
+
+        if (!user || !(await bcrypt.compare(password, user?.getDataValue('password')))) {
+            res.status(400).json({
+                status: 'fail',
+                error: 'Incorrect email or password'
+            })
+        }
+        else {
+
+            const token = signToken(user?.getDataValue('id'))
+            user?.setDataValue('password', 'undefined');
+
+            res.status(200).json({
+                status: "success",
+                user: {
+                    token,
+                    user
+                }
+            })
+        }
 
     } catch (error) {
         console.log(error)
@@ -62,4 +78,4 @@ const login = async (req: Request, res: Response) => {
 export {
     register,
     login,
-   }
+}

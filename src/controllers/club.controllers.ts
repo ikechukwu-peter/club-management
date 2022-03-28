@@ -9,15 +9,15 @@ import Club from '../models/club.model'
 import ClubMember from '../models/clubmember.models'
 
 const create_club = async (req: Request, res: Response) => {
-    console.log(req.body)
+    console.log(req.user)
     const { name, description } = req.body;
 
     try {
         let clubExist = await Club.findOne({
             where: {
-                userid: req.user,
+                userId: req.user,
                 name
-            }
+             }
         })
 
         if (clubExist) {
@@ -122,7 +122,7 @@ const accept_invitation = async (req: Request, res: Response) => {
         if (clubmember) {
             let club = await Club.findOne({
                 where: {
-                    id: clubmember.getDataValue("id")
+                    id: clubmember.getDataValue("clubId")
                 }
             })
 
@@ -138,16 +138,16 @@ const accept_invitation = async (req: Request, res: Response) => {
                 })
             }
             else {
-                res.status(400).json({
+                res.status(404).json({
                     status: 'fail',
-                    error: 'error processing your request'
+                    error: 'invalid club'
                 })
             }
         }
         else {
-            res.status(400).json({
+            res.status(404).json({
                 status: "fail",
-                error: 'error processing your request'
+                error: 'no club member found'
             })
         }
 
@@ -191,16 +191,16 @@ const reject_invitation = async (req: Request, res: Response) => {
                 })
             }
             else {
-                res.status(400).json({
+                res.status(404).json({
                     status: 'fail',
-                    error: 'error processing your request'
+                    error: 'invalid club'
                 })
             }
         }
         else {
-            res.status(400).json({
+            res.status(404).json({
                 status: "fail",
-                error: 'error processing your request'
+                error: 'no member found'
             })
         }
 

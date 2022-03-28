@@ -7,7 +7,7 @@ const createClub = async (name: string, description: string, user_id: string) =>
     try {
         //check if a club already exist
         let club = await Club.create({
-            userid: user_id,
+            userId: user_id,
             name,
             description
         })
@@ -26,9 +26,9 @@ const createInvitation = async (username: string, firstname: string, lastname: s
     try {
         let invite_to_club = await ClubMember.create({
             username: username,
-            fullname: `${firstname} ${lastname}`,
-            clubid: clubId,
-            userid: userId
+            full_name: `${firstname} ${lastname}`,
+            clubId: clubId,
+            userId: userId
         })
         console.log(invite_to_club)
         return Promise.resolve(invite_to_club)
