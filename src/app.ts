@@ -7,9 +7,11 @@ import helmet from "helmet";
 import xssclean from "xss-clean";
 import passport from 'passport'
 import cors from 'cors'
-import authenticate from './config/passport.config';
+import authenticate from './config/passport';
 import compression from "compression";
 import userRoute from "./routes/user.route";
+import clubRoute from "./routes/club.route";
+
 
 const app: Application = express();
 
@@ -43,6 +45,8 @@ const apiLimiter = rateLimit({
 app.use(apiLimiter);
 
 // Routing
-app.use(userRoute);
+app.use("/user/", userRoute);
+app.use("/club/", clubRoute);
+
 
 export default app;

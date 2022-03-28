@@ -1,19 +1,25 @@
 import { DataTypes } from 'sequelize'
 import sequelize from '../config/database.config'
 
-const Club = sequelize.define('club', {
+
+const ClubMember = sequelize.define('clubmemeber', {
     id: {
         type: DataTypes.UUIDV4,
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
+    full_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    description: {
-        type: DataTypes.TEXT,
+    username: {
+        type: DataTypes.STRING,
         allowNull: false
     },
+    status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'pending'
+    }
 })
-export default Club;
+export default ClubMember;

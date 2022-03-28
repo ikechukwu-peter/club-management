@@ -6,6 +6,7 @@ interface options {
     secretOrKey: string
 }
 
+
 let options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET
@@ -15,9 +16,9 @@ export default (passport: any) => {
     passport.use(
         new Strategy(options, async (jwt_payload: any, done: any) => {
             try {
-                const user = await User.findByPk(jwt_payload.id);
-                if (user) {
-                    return done(null, user);
+                //const user = await User.findByPk(jwt_payload.id);
+                if (jwt_payload.id) {
+                    return done(null, jwt_payload.id);
                 }
                 return done(null, false);
             } catch (err) {

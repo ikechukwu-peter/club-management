@@ -1,12 +1,13 @@
 import cluster from "cluster";
 import { cpus } from "os";
-import * as dotenv from "dotenv";
-import sequelize from "./database/database";
+import 'dotenv/config'
+import "./config/database.config";
+import './config/database.association'
+//import sequelize from "./database/database";
+
 
 //initializing app
 import app from "./app";
-dotenv.config({ path: "./.env" });
-
 
 const numWorkers = cpus().length;
 
@@ -41,19 +42,22 @@ if (cluster.isPrimary) {
     process.exit(1);
   });
 
+  // sequelize.sync({
+  //   force: true
+  // })
   // //Connecting to mongoose
-  async function dbInit(): Promise<void> {
-    try {
-      await sequelize.authenticate();
-      console.log('Connected to the database successfully')
-    } catch (error) {
-      console.log('Failed to connect to the database ' + error)
-    }
+  // async function dbInit(): Promise<void> {
+  //   try {
+  //     await sequelize.authenticate();
+  //     console.log('Connected to the database successfully')
+  //   } catch (error) {
+  //     console.log('Failed to connect to the database ' + error)
+  //   }
 
-  }
+  // }
 
-  // //Call DB to start
-  dbInit();
+  // // //Call DB to start
+  // dbInit();
 
   //Setting port
   const port = process.env.PORT || 5000;

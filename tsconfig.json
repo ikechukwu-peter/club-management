@@ -69,7 +69,4 @@
     "./public/*",
     "node_modules",
   ],
-  "files": [
-    "@types/express/index.d.ts"
-  ]
-}
+  }
