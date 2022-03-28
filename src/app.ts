@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 // @ts-ignore
 import rateLimit from "express-rate-limit";
 //@ts-ignore
@@ -47,6 +47,11 @@ app.use(apiLimiter);
 // Routing
 app.use("/user/", userRoute);
 app.use("/club/", clubRoute);
-
+app.all("*", (req: Request, res: Response) => {
+    res.status(404).json({
+        status: "fail",
+        message: `Can't find ${req.originalUrl} on this server!`
+    })
+})
 
 export default app;
