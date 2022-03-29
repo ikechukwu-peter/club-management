@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { Op } from 'sequelize'
 import {
     createClub,
     createInvitation,
@@ -17,7 +18,7 @@ const create_club = async (req: Request, res: Response) => {
             where: {
                 userId: req.user,
                 name
-             }
+            }
         })
 
         if (clubExist) {
@@ -287,7 +288,7 @@ const allMembers = async (req: Request, res: Response) => {
     try {
         const user = await User.findAll({
             attributes: {
-                exclude: ['password']
+                exclude: ['password'],
             },
             order: [['id', 'DESC']]
         });
@@ -350,6 +351,7 @@ const deleteClub = async (req: Request, res: Response) => {
 
 const allClubs = async (req: Request, res: Response) => {
     const id = req.user;
+    console.log(id)
     try {
         const club = await Club.findAll({
             where: {

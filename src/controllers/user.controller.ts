@@ -45,7 +45,7 @@ const login = async (req: Request, res: Response) => {
         })
         console.log(user?.getDataValue('email'))
 
-        if (!user || !(await bcrypt.compare(password, user?.getDataValue('password')))) {
+        if (user === null || !(await bcrypt.compare(password, user?.getDataValue('password')))) {
             res.status(400).json({
                 status: 'fail',
                 error: 'Incorrect email or password'
