@@ -264,7 +264,8 @@ const clubMembers = async (req: Request, res: Response) => {
     try {
         const members = await ClubMember.findAll({
             where: {
-                clubId: id
+                clubId: id,
+                status: 'active'
             }
         });
 
@@ -365,6 +366,25 @@ const allClubs = async (req: Request, res: Response) => {
     }
 }
 
+const userClubs = async (req: Request, res: Response) => {
+    const id = req.user;
+    try {
+        const club = await ClubMember.findAll({
+            where: {
+                id: id,
+                status: 'pending'
+            }
+        });
+        return res.status(200).json(club);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: 500,
+            message: "Internal Server Error"
+        });
+    }
+}
+
 export {
     create_club,
     create_invitation,
@@ -374,5 +394,6 @@ export {
     clubMembers,
     allMembers,
     deleteClub,
-    allClubs
+    allClubs,
+    userClubs
 }

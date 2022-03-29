@@ -9,13 +9,15 @@ import {
     clubMembers,
     allMembers,
     deleteClub,
-    allClubs
+    allClubs,
+    userClubs
 } from '../controllers/club.controllers'
 
 
 const router = express.Router()
 router.get('/all/users', passport.authenticate('jwt', { session: false }), allMembers)
 router.get('/clubs', passport.authenticate('jwt', { session: false }), allClubs)
+router.get('/clubs/user', passport.authenticate('jwt', { session: false }), userClubs)
 router.get('/members/:id', passport.authenticate('jwt', { session: false }), clubMembers)
 router.delete('/delete/club/:clubId', passport.authenticate('jwt', { session: false }), deleteClub)
 router.post('/create/club', passport.authenticate('jwt', { session: false }), create_club)
