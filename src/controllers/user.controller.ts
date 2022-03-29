@@ -75,7 +75,34 @@ const login = async (req: Request, res: Response) => {
 }
 
 
+const getUser = async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+        let user = await User.findByPk(id)
+        if (user) {
+            res.status(200).json({
+                status: 'success',
+                user
+            })
+        }
+        else {
+            res.status(404).json({
+                status: 'fail',
+                error: 'Error processing your request'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 'fail',
+            error: 'something went wrong'
+        })
+    }
+}
+
 export {
     register,
     login,
+    getUser
 }
+
+
