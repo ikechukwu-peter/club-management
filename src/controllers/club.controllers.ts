@@ -76,7 +76,7 @@ const create_invitation = async (req: Request, res: Response) => {
                     })
                 }
                 else {
-                    let data = await createInvitation(username, user.getDataValue("firstname"), user.getDataValue("lastname"), club.getDataValue("id"))
+                    let data = await createInvitation(username, user.getDataValue("firstname"), user.getDataValue("lastname"), club.getDataValue("id"), user.getDataValue('id'))
                     console.log(data) 
                     res.status(201).json({
                         status: "succcess",
